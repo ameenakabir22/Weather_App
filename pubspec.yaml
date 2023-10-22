@@ -9,6 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.13.5
+  geolocator: ^10.1.0
+  geocoding: ^2.0.5
+  lottie: ^1.4.2
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:
