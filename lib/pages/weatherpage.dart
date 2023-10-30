@@ -11,39 +11,32 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  // api key
   final _weatherService = WeatherServices('63129efc2865e23187009d071fdcb739');
   Weather? _weather;
-  // fetch weather
+  String _cityName = "Loading city ..."; // Initialize with a default value
+
   _fetchWeather() async {
-    // Get the current city
     String? cityName = await _weatherService.getCurrentCity();
 
     if (cityName != null) {
-      // Get the weather for the city
+      setState(() {
+        _cityName = cityName; // Update the city name
+      });
+
       try {
         final weather = await _weatherService.getWeather(cityName);
-        // Assign the weather data to your _weather property if needed
         setState(() {
           _weather = weather;
         });
-      } catch (error) {
-        // Handle any errors that occur during weather retrieval
-        print("Error fetching weather: $error");
+      } catch (e) {
+        print(e);
       }
-    } else {
-      // Handle the case where cityName is null (e.g., show an error or provide a default city name)
-      print("City name is null");
     }
   }
 
-  //weather animation
-
-  // init state
   @override
   void initState() {
     super.initState();
-    // fetch weather on startup
     _fetchWeather();
   }
 
@@ -55,12 +48,13 @@ class _WeatherPageState extends State<WeatherPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // city name
-            Text(_weather?.cityName ?? "Loading city ..."),
+            Text(_cityName), // Use the updated _cityName
 
             // animations
             Lottie.asset('assets/sunny.json'),
+
             // temperature
-            Text('${_weather?.temperature.round()}ºc')
+            Text('${_weather?.temperature.round()}ºC')
           ],
         ),
       ),
