@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:weather_app/services/weather_services.dart';
 import 'package:weather_app/model/weathermodel.dart';
 
@@ -56,6 +57,8 @@ class _WeatherPageState extends State<WeatherPage> {
             // city name
             Text(_weather?.cityName ?? "Loading city ..."),
 
+            // animations
+            Lottie.asset('assets/sunny.json'),
             // temperature
             Text('${_weather?.temperature.round()}ºc')
           ],
