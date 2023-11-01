@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/services/weather_services.dart';
-import 'package:weather_app/model/weathermodel.dart';
+import 'package:weather_app/model/weathermodel.dart'; // Import the correct Weather class from the model file
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -11,7 +11,8 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  final _weatherService = WeatherServices('63129efc2865e23187009d071fdcb739');
+  final _weatherService =
+      WeatherServices('YOUR_API_KEY'); // Replace with your API key
   Weather? _weather;
   String _cityName = "Loading city ..."; // Initialize with a default value
 
@@ -34,6 +35,31 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
+  // Weather animations
+  String getWeatherAnimation(String? mainCondition) {
+    if (mainCondition == null) return 'assets/sunny.json';
+
+    switch (mainCondition) {
+      case 'Clouds':
+      case 'Mist':
+      case 'Smoke':
+      case 'Haze':
+      case 'Dust':
+      case 'Fog':
+        return 'assets/cloud.json';
+      case 'Rain':
+      case 'Drizzle':
+      case 'Shower rain':
+        return 'assets/rain.json';
+      case 'Thunderstorm':
+        return 'assets/thunder.json';
+      case 'Clear':
+        return 'assets/sunny.json';
+      default:
+        return 'assets/sunny.json'; // Use a default animation if condition is unknown
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,14 +73,19 @@ class _WeatherPageState extends State<WeatherPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // city name
+            // City name
             Text(_cityName), // Use the updated _cityName
 
-            // animations
-            Lottie.asset('assets/sunny.json'),
+            // Animations
+            Lottie.asset(getWeatherAnimation(_weather?.mainCondition ??
+                'Clear')), // Provide a default condition if _weather?.mainCondition is null
 
-            // temperature
-            Text('${_weather?.temperature.round()}ºC')
+            // Temperature
+            Text(
+                '${_weather?.temperature?.round() ?? 0}ºC'), // Provide a default value if temperature is null
+
+            // Main condition
+            Text(_weather?.mainCondition ?? "Condition not available"),
           ],
         ),
       ),

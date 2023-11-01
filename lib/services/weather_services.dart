@@ -1,12 +1,12 @@
 import 'dart:convert';
-
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/model/weathermodel.dart';
 
 class WeatherServices {
-  static const BASE_URL = "https://openweathermap.org/api/data/2.5/weather";
+  static const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+
   final String apiKey;
 
   WeatherServices(this.apiKey);
